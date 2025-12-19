@@ -30,7 +30,7 @@ MeHRa is a modular AI agent that can be extended with various capabilities, incl
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/mehra.git
+   git clone https://github.com/sir-ab/mehra.git
    cd mehra
    ```
 
