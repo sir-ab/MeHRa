@@ -1,0 +1,11 @@
+aiohttp==3.11.13
+discord.py==2.5.2
+faster_whisper==1.1.0
+numpy==2.2.3
+PyAudio==0.2.14
+pyttsx3==2.98
+Requests==2.32.3
+sounddevice==0.5.1
+soundfile==0.13.1
+torch==2.6.0+cu126
+whisper_live==0.6.3
