@@ -9,4 +9,3 @@ sounddevice==0.5.1
 soundfile==0.13.1
 torch==2.6.0+cu126
 whisper_live==0.6.3
-dotenv
