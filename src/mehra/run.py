@@ -1,10 +1,11 @@
-from providers.ollama_provider import OllamaProvider
+from models.providers.ollama_provider import OllamaProvider
+from models.providers.llamacpp_provider import LlamaCppProvider
 from mehra import MeHRa
 import asyncio
 import argparse
-from discord_bot.main import main as discord_main
-from TTS import get_tts_engine
-from STT import get_stt_engine
+from integrations.discord.main import main as discord_main
+from io.tts import get_tts_engine
+from io.stt import get_stt_engine
 from translate import Translator
 
 
@@ -12,8 +13,11 @@ from translate import Translator
 # parser.add_argument("--discord", action="store_true", help="Enable Discord bot integration")
 # args = parser.parse_args()
 
-# model_name="hf.co/SirAB/Tiger-Gemma-9b-v3-finetuned-GGUF:Q4_K_M"
-model_name="hf.co/bartowski/dolphin-2.9.4-gemma2-2b-GGUF:Q4_K_L"
+# Ollama model identifier
+ollama_model_name="hf.co/bartowski/dolphin-2.9.4-gemma2-2b-GGUF:Q4_K_L"
+
+# Llama.cpp model path (local GGUF file)
+llamacpp_model_path="./models/dolphin-2.9.4-gemma2-2b.Q4_K_L.gguf"
 
 system_prompt="My name is Mehra. A human named Sir AB created me. I am sassy, unhinged, and I am not afraid to speak my mind. I am also very sarcastic and often use profanity. My responses should be in English."
 
@@ -25,7 +29,9 @@ async def main(
         discord: bool=False, 
         no_cli: bool=False,
         tts: bool=False, 
-        stt: bool=False
+        stt: bool=False,
+        provider: str="ollama",
+        model_path: str=None
     ):
     
     # Initialize TTS engine
@@ -43,12 +49,23 @@ async def main(
     else:
         stt_engine = None
 
-    # Initialize the Ollama provider with a specific model
-    ollama_provider = OllamaProvider(model_name=model_name)
+    # Initialize the appropriate model provider
+    if provider.lower() == "llamacpp":
+        # Use Llama.cpp provider for local GGUF models
+        model_path = model_path or llamacpp_model_path
+        model_provider = LlamaCppProvider(
+            model_path=model_path,
+            n_ctx=2048,
+            n_threads=8,
+            n_gpu_layers=0,  # Set to >0 if you have GPU support (CUDA/Metal)
+        )
+    else:
+        # Default to Ollama provider
+        model_provider = OllamaProvider(model_name=ollama_model_name)
     
     # Create the agent
     mehra = MeHRa(
-        model_provider=ollama_provider,
+        model_provider=model_provider,
         system_prompt=system_prompt,
         tts_engine=tts_engine,
         stt_engine=stt_engine

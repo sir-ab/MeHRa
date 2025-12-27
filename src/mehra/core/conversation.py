@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List, Dict
-from core.message import Message
+from .message import Message
 
 
 @dataclass

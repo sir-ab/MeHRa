@@ -1,5 +1,5 @@
 from typing import Any
-from tools.tool import Tool
+from .tool import Tool
 
 class RAGTool(Tool):
     """Tool for Retrieval-Augmented Generation."""

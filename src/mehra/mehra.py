@@ -1,10 +1,10 @@
 from typing import List, Any, AsyncIterator, Dict
-from core.conversation import Conversation
-from providers.model_provider import ModelProvider
-from TTS.tts_interface import TTSEngineInterface
-from STT.stt_interface import STTEngineInterface # Add STT engine
-from tools.tool import Tool
-from tools.rag_tool import RAGTool
+from .core.conversation import Conversation
+from .models.providers.model_provider import ModelProvider
+from .io.tts.tts_interface import TTSEngineInterface
+from .io.stt.stt_interface import STTEngineInterface # Add STT engine
+from .tools.tool import Tool
+from .tools.rag_tool import RAGTool
 import threading
 import asyncio
 import time
